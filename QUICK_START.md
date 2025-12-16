@@ -14,37 +14,57 @@ Get the Project Management System up and running in minutes!
 1. Open PowerShell or Command Prompt in the project directory
 2. Run the setup script:
    ```cmd
-   setup.bat
-   ```
+## Docker Setup (Recommended)
 
-### macOS/Linux
+### Prerequisites
+- Docker Desktop installed and running
+- Git installed
 
-1. Open Terminal in the project directory
-2. Make the script executable and run it:
+### Steps
+
+1. **Clone the repository**
    ```bash
-   chmod +x setup.sh
-   ./setup.sh
+   git clone <repository-url>
+   cd "Project Managerment system"
    ```
 
-### Manual Docker Setup
+2. **Setup environment variables (Optional for Docker)**
+   
+   The Docker setup works with default values, but you can customize:
+   ```bash
+   # Copy the example file
+   cp backend/.env.example backend/.env
+   
+   # Edit if needed (optional)
+   # For Docker, ensure DATABASE_HOST=db
+   ```
 
-```bash
-# Copy environment file
-cp backend/.env.example backend/.env
+3. **Start all services**
+   ```bash
+   docker-compose up -d --build
+   ```
 
-# Start all services
-docker-compose up -d --build
+4. **Wait for services to start** (~30 seconds)
+   
+   Check status:
+   ```bash
+   docker-compose ps
+   ```
 
-# Wait a few seconds, then run migrations
-docker-compose exec backend python manage.py migrate
+5. **Create a superuser**
+   ```bash
+   docker-compose exec backend python manage.py createsuperuser
+   ```
+   
+   Follow the prompts to set:
+   - Username
+   - Email
+   - Password
 
-# Create admin user
-docker-compose exec backend python manage.py createsuperuser
-
-# Access the app
-# Frontend: http://localhost:3000
-# Backend: http://localhost:8000/graphql/
-```
+6. **Access the application**
+   - Frontend: http://localhost:3000
+   - GraphQL API: http://localhost:8000/graphql/
+   - Admin Panel: http://localhost:8000/admin/
 
 ## Option 2: Local Development Setup
 

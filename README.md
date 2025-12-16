@@ -166,19 +166,47 @@ A modern, full-stack multi-tenant project management application built with Djan
 ## 🔧 Configuration
 
 ### Backend Environment Variables
-Create a `.env` file in the `backend` directory:
 
-```env
-SECRET_KEY=your-secret-key-here
-DEBUG=True
-DATABASE_NAME=project_management
-DATABASE_USER=postgres
-DATABASE_PASSWORD=postgres
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
-ALLOWED_HOSTS=localhost,127.0.0.1
-CORS_ALLOWED_ORIGINS=http://localhost:3000
+Create a `.env` file in the `backend` directory based on `.env.example`:
+
+```bash
+cp backend/.env.example backend/.env
 ```
+
+#### Environment Variables Explained
+
+| Variable | Description | Example | Required |
+|----------|-------------|---------|----------|
+| `SECRET_KEY` | Django secret key for cryptographic signing | `django-insecure-xyz123...` | ✅ Yes |
+| `DEBUG` | Enable/disable debug mode | `True` (dev), `False` (prod) | ✅ Yes |
+| `DATABASE_NAME` | PostgreSQL database name | `project_management` | ✅ Yes |
+| `DATABASE_USER` | PostgreSQL username | `postgres` | ✅ Yes |
+| `DATABASE_PASSWORD` | PostgreSQL password | `postgres` | ✅ Yes |
+| `DATABASE_HOST` | Database host | `localhost` or `db` (Docker) | ✅ Yes |
+| `DATABASE_PORT` | Database port | `5432` | ✅ Yes |
+| `ALLOWED_HOSTS` | Comma-separated allowed hosts | `localhost,127.0.0.1` | ✅ Yes |
+| `CORS_ALLOWED_ORIGINS` | Comma-separated CORS origins | `http://localhost:3000` | ✅ Yes |
+
+#### Important Notes
+
+**For Docker Setup:**
+- Set `DATABASE_HOST=db` (service name in docker-compose.yml)
+- Other values can remain as in `.env.example`
+
+**For Local Development:**
+- Set `DATABASE_HOST=localhost`
+- Ensure PostgreSQL is running locally
+- Update `DATABASE_USER` and `DATABASE_PASSWORD` to match your local PostgreSQL setup
+
+**For Production:**
+- Generate a new `SECRET_KEY`:
+  ```bash
+  python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+  ```
+- Set `DEBUG=False`
+- Use strong database credentials
+- Update `ALLOWED_HOSTS` with your domain
+- Update `CORS_ALLOWED_ORIGINS` with your frontend URL
 
 ### Frontend Configuration
 The frontend is configured to connect to `http://localhost:8000/graphql/` by default. To change this, edit `frontend/src/apollo/client.ts`.
