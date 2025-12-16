@@ -185,7 +185,7 @@ DEMO.md for a feature walkthrough.
 I'm available for any questions or to discuss the implementation.
 
 Best regards,
-[Your Name]
+Aakash Bhargava
 ```
 
 ## Additional Resources
