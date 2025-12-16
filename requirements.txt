@@ -1,0 +1,139 @@
+Software Engineer Screening Task
+Overview
+This is a technical assessment designed to evaluate your skills with modern full-stack development. You'll build a simplified project management system that demonstrates proficiency with our core tech stack and architectural patterns.
+Task: Mini Project Management System
+Build a multi-tenant project management tool with the following features:
+Requirements
+Backend (Django + GraphQL) -
+1. Core Data Models
+Create Django models for:
+Organization (name, slug, contact_email)
+Project (organization-dependent with name, status, description, due_date)
+Task (project-dependent with title, description, status, assignee_email)
+TaskComment (linking to tasks with content, author_email, timestamp)
+2. API Layer
+GraphQL schema with queries and mutations for:
+Listing projects for an organization
+Creating/updating projects and tasks
+Adding comments to tasks
+Basic project statistics (task counts, completion rates)
+3. Multi-tenancy
+Implement organization-based data isolation
+Ensure proper data separation
+Add organization context to all operations
+Frontend (React + TypeScript) -
+1. Project Dashboard
+List view of projects with status indicators
+Create/edit project form with validation
+Responsive design using TailwindCSS
+2. Task Management
+Task board or list view
+Add/edit tasks with status updates
+Comment system for tasks
+3. GraphQL Integration
+Apollo Client setup with error handling
+Optimistic updates for mutations
+Proper cache management
+4. UI Components
+Modern, clean component design
+Proper TypeScript interfaces
+Loading states and error handling
+Basic animations/transitions
+Technical Stack
+Backend: Django 4.x, Django REST Framework, GraphQL (Graphene), PostgreSQL
+Frontend: React 18+, TypeScript, Apollo Client, TailwindCSS
+Database: PostgreSQL (Docker/local setup)
+Deliverables
+GitHub Repository with clean commit history
+Setup Instructions (README with installation steps)
+API Documentation (endpoint list + GraphQL schema)
+Demo (screenshots or brief video)
+Technical Summary (decisions made, trade-offs, future improvements)
+Sample API Structure
+# Example models - expand as needed
+class Organization(models.Model):
+name = models.CharField(max_length=100)
+slug = models.SlugField(unique=True)
+contact_email = models.EmailField()
+created_at = models.DateTimeField(auto_now_add=True)
+
+class Project(models.Model):
+organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+name = models.CharField(max_length=200)
+description = models.TextField(blank=True)
+status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+due_date = models.DateField(null=True, blank=True)
+created_at = models.DateTimeField(auto_now_add=True)
+
+class Task(models.Model):
+project = models.ForeignKey(Project, on_delete=models.CASCADE)
+title = models.CharField(max_length=200)
+description = models.TextField(blank=True)
+status = models.CharField(max_length=20, choices=TASK_STATUS_CHOICES)
+assignee_email = models.EmailField(blank=True)
+due_date = models.DateTimeField(null=True, blank=True)
+created_at = models.DateTimeField(auto_now_add=True)
+Frontend Component Examples
+// Example interfaces
+interface Project {
+id: string;
+name: string;
+description: string;
+status: 'ACTIVE' | 'COMPLETED' | 'ON_HOLD';
+taskCount: number;
+completedTasks: number;
+dueDate?: string;
+}
+
+interface Task {
+id: string;
+title: string;
+description: string;
+status: 'TODO' | 'IN_PROGRESS' | 'DONE';
+assigneeEmail: string;
+dueDate?: string;
+}
+Evaluation Criteria
+Must Have (70%)
+✅ Working Django models with proper relationships
+✅ Functional GraphQL API with organization isolation
+✅ React components with TypeScript
+✅ Apollo Client integration
+✅ Clean code structure and organization
+Should Have (20%)
+✅ Form validation and error handling
+✅ Basic test coverage
+✅ Responsive UI design
+✅ Proper database migrations
+✅ Mock external integrations
+Nice to Have (10%)
+✅ Advanced GraphQL features (subscriptions, complex filtering)
+✅ Comprehensive testing
+✅ Docker containerization
+✅ Performance optimizations
+✅ Advanced UI features (drag-and-drop, real-time updates)
+Key Focus Areas
+Architecture: Clean separation of concerns, proper abstractions
+Data Modeling: Efficient relationships, proper constraints
+API Design: RESTful principles, GraphQL best practices
+Frontend Patterns: Component composition, state management
+Documentation: Clear setup instructions, API documentation
+Bonus Points
+Real-time features using WebSockets/subscriptions
+Advanced filtering and search capabilities
+Mobile-responsive design
+Accessibility considerations
+Performance monitoring/logging
+CI/CD setup
+Submission Instructions
+Submit within 48 hours:
+GitHub repository (public or invite access)
+Readme file with instructions to set up and start the application locally
+Questions?
+Feel free to ask about:
+Specific feature requirements
+Technical implementation approaches
+Scope clarifications
+Setup or tooling questions
+This task evaluates your ability to build production-ready applications with modern tools while demonstrating good engineering practices. Focus on quality over quantity - a well-executed subset is better than a rushed complete implementation.
+Good luck! 🚀
